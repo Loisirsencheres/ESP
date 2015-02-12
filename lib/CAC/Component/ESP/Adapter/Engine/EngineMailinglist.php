@@ -117,5 +117,12 @@ class EngineMailinglist implements MailinglistAdapterInterface
 
         return $this->api->getMailinglistUnsubscriptions($options['mailinglist'], $options['from'], $options['till']);
     }
+    
+    public function getUserByEmail($email)
+    {
+        $mailinglistId = 1;
+
+		return $this->api->getMailinglistUser($mailinglistId, $email, array('email', 'firstname', 'lastname', 'source', 'campaign', 'medium'));
+	}
 
 }
