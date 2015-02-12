@@ -58,6 +58,11 @@ class MailinglistClient implements LoggerAwareInterface
 
         return $result;
     }
+    
+    public function getUserByEmail($email)
+    {
+        return $this->adapter->getUserByEmail($email);
+    }
 
     /**
      * Get a Subscriber from the Mailinglist
