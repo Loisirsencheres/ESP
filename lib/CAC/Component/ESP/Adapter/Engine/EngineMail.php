@@ -83,8 +83,8 @@ class EngineMail implements MailAdapterInterface
             $templateId,
             Encoding::toLatin1($subject),
             Encoding::toLatin1($this->options['fromName']),
-            isset($params)? $params['fromEmail'] : $this->options['fromEmail'],
-            isset($params)? $params['replyTo'] : $this->options['replyTo']
+            isset($params['fromEmail'])? $params['fromEmail'] : $this->options['fromEmail'],
+            isset($params['replyTo'])? $params['replyTo'] : $this->options['replyTo']
         );
 
         return (bool) $this->api->sendMailing($mailingId, $users, null, (isset($template['mailinglist']) ? $template['mailinglist'] : null));
