@@ -65,10 +65,17 @@ class EngineMail implements MailAdapterInterface
      */
     public function sendByTemplate($templateId, array $users, $subject = null, $params = array(), $group = 'default')
     {
+        $fromName = $this->options['fromName'];
+        $fromEmail = $this->options['fromEmail'];
+        $replyTo = $this->options['replyTo'];
+
         if (!is_numeric($templateId)) {
             $template = $this->findTemplateByName($templateId, $group);
             $templateId = $template['id'];
             $subject = $template['subject'];
+            $fromName = isset($template['fromName'])?$template['fromName']:$fromName;
+            $fromEmail = isset($template['fromEmail'])?$template['fromEmail']:$fromEmail;
+            $replyTo = isset($template['replyTo'])?$template['replyTo']:$replyTo;
 
             if (isset($template['mailinglist'])) {
                 $this->api->selectMailinglist($template['mailinglist']);
@@ -82,9 +89,9 @@ class EngineMail implements MailAdapterInterface
         $mailingId = $this->api->createMailingFromTemplate(
             $templateId,
             Encoding::toLatin1($subject),
-            Encoding::toLatin1($this->options['fromName']),
-            isset($params['fromEmail'])? $params['fromEmail'] : $this->options['fromEmail'],
-            isset($params['replyTo'])? $params['replyTo'] : $this->options['replyTo']
+            Encoding::toLatin1(isset($params['fromName'])? $params['fromName'] : $fromName),
+            isset($params['fromEmail'])? $params['fromEmail'] : $fromEmail,
+            isset($params['replyTo'])? $params['replyTo'] : $replyTo
         );
 
         return (bool) $this->api->sendMailing($mailingId, $users, null, (isset($template['mailinglist']) ? $template['mailinglist'] : null));
