@@ -72,7 +72,7 @@ class EngineMail implements MailAdapterInterface
         if (!is_numeric($templateId)) {
             $template = $this->findTemplateByName($templateId, $group);
             $templateId = $template['id'];
-            $subject = $template['subject'];
+            $subject = $subject == null ? $template['subject'] : $subject;
             $fromName = isset($template['fromName'])?$template['fromName']:$fromName;
             $fromEmail = isset($template['fromEmail'])?$template['fromEmail']:$fromEmail;
             $replyTo = isset($template['replyTo'])?$template['replyTo']:$replyTo;
