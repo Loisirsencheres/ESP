@@ -41,8 +41,13 @@ class EngineMail implements MailAdapterInterface
     }
 
     /**
-     * (non-PHPdoc)
      * @see \CAC\Component\ESP\MailAdapterInterface::send()
+     *
+     * @param array $users
+     * @param $subject
+     * @param $body
+     *
+     * @return bool
      */
     public function send(array $users, $subject, $body)
     {
@@ -60,12 +65,21 @@ class EngineMail implements MailAdapterInterface
     }
 
     /**
-     * (non-PHPdoc)
      * @see \CAC\Component\ESP\MailAdapterInterface::sendByTemplate()
+     *
+     * @param int|string $templateId
+     * @param array $users
+     * @param null $subject
+     * @param array $params
+     * @param string $group
+     *
+     * @param null $fromName
+     *
+     * @return bool
      */
-    public function sendByTemplate($templateId, array $users, $subject = null, $params = array(), $group = 'default')
+    public function sendByTemplate($templateId, array $users, $subject = null, $params = array(), $group = 'default', $fromName = null)
     {
-        $fromName = $this->options['fromName'];
+        $fromName =$fromName == null ? $this->options['fromName'] : $fromName;
         $fromEmail = $this->options['fromEmail'];
         $replyTo = $this->options['replyTo'];
 
@@ -98,10 +112,11 @@ class EngineMail implements MailAdapterInterface
     }
 
     /**
-     * Find a template by name
-     *
      * @param string $name
      * @param string $group
+     *
+     * @return array
+     *
      * @throws ESPException
      */
     private function findTemplateByName($name, $group = 'default')
