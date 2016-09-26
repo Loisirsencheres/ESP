@@ -82,12 +82,11 @@ class EngineMail implements MailAdapterInterface
         $fromName =$fromName == null ? $this->options['fromName'] : $fromName;
         $fromEmail = $this->options['fromEmail'];
         $replyTo = $this->options['replyTo'];
-
         if (!is_numeric($templateId)) {
             $template = $this->findTemplateByName($templateId, $group);
             $templateId = $template['id'];
             $subject = $subject == null ? $template['subject'] : $subject;
-            $fromName = isset($template['fromName'])?$template['fromName']:$fromName;
+            $fromName = utf8_encode(isset($template['fromName'])?$template['fromName']:$fromName);
             $fromEmail = isset($template['fromEmail'])?$template['fromEmail']:$fromEmail;
             $replyTo = isset($template['replyTo'])?$template['replyTo']:$replyTo;
 
